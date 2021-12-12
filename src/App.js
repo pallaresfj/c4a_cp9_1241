@@ -24,35 +24,35 @@ function App() {
   const [showLoading, setShowLoading] = useState(true);
   const elements = 8;
 
-  useEffect(function() {
+  useEffect(function () {
     setShowLoading(true);
     const url = "https://gateway.marvel.com:443/v1/public/characters?" +
-                "ts=1&" +
-                "apikey=eee8dbdf35beadab8d05c92849436775&"+
-                "hash=1850c453e78910ae279ac45f5549a0c4&" +
-                "limit=" + elements + "&" +
-                "offset=" + ((page-1) * elements);
+      "ts=1&" +
+      "apikey=eee8dbdf35beadab8d05c92849436775&" +
+      "hash=1850c453e78910ae279ac45f5549a0c4&" +
+      "limit=" + elements + "&" +
+      "offset=" + ((page - 1) * elements);
     axios.get(url)
-         .then(function(respuestaServidor) {
-            setListaPersonajes(respuestaServidor.data.data.results);
-            setTotalElements(respuestaServidor.data.data.total);
-            setShowLoading(false);
-         })
-         .catch(function (errorServidor) {
-           console.log(errorServidor);
-         })
-  },[ page, elements ]);
+      .then(function (respuestaServidor) {
+        setListaPersonajes(respuestaServidor.data.data.results);
+        setTotalElements(respuestaServidor.data.data.total);
+        setShowLoading(false);
+      })
+      .catch(function (errorServidor) {
+        console.log(errorServidor);
+      })
+  }, [page, elements]);
 
-  const componentePersonajes = listaPersonajes.map( p => (
+  const componentePersonajes = listaPersonajes.map(p => (
     <div className="col-sm-3" key={p.id}>
-      <Card className="mt-2 mb-2" style={{height: '40rem'}}>
-        <Card.Img variant="top" style={{ height: '20rem'}}
-                  src={`${p.thumbnail.path}.${p.thumbnail.extension}`} >
+      <Card className="mt-2 mb-2" style={{ height: '40rem' }}>
+        <Card.Img variant="top" style={{ height: '20rem' }}
+          src={`${p.thumbnail.path}.${p.thumbnail.extension}`} >
         </Card.Img>
         <Card.Body>
           <Card.Title>{p.name}</Card.Title>
           <Card.Text style={{ fontSize: "10px" }}>
-            { Boolean(p.description) ? p.description : 'No registra' }
+            {Boolean(p.description) ? p.description : 'No registra'}
           </Card.Text>
         </Card.Body>
       </Card>
@@ -62,42 +62,42 @@ function App() {
   const Paginator = function () {
 
     const onPrevio = function () {
-      if (page>=2) {
-        setPage(parseInt(page)-1);
+      if (page >= 2) {
+        setPage(parseInt(page) - 1);
       }
     }
 
-    const onPrimera = function() {
+    const onPrimera = function () {
       setPage(1);
     }
-    
-    const onSiguiente = function() {
-      if (page < (Math.ceil(totalElements/elements))) {
-        setPage(parseInt(page)+1);
+
+    const onSiguiente = function () {
+      if (page < (Math.ceil(totalElements / elements))) {
+        setPage(parseInt(page) + 1);
       }
     }
 
-    const onUltima = function() {
-      setPage(Math.ceil(totalElements/elements));
+    const onUltima = function () {
+      setPage(Math.ceil(totalElements / elements));
     }
 
     return (
       <nav className="mt-2">
         <ul className="pagination">
           <li className="page-item">
-            <button className="page-link btn-primary text-white" onClick={ onPrimera }>Primera</button>
+            <button className="page-link btn-primary text-white" onClick={onPrimera}>Primera</button>
           </li>
           <li className="page-item">
-            <button className="page-link btn-primary text-white" onClick={ onPrevio }>Previo</button>
+            <button className="page-link btn-primary text-white" onClick={onPrevio}>Previo</button>
           </li>
           <li className="page-item p-2">
-            <label>Pagina {page} de {Math.ceil(totalElements/elements)} </label>
+            <label>Pagina {page} de {Math.ceil(totalElements / elements)} </label>
           </li>
           <li className="page-item">
-            <button className="page-link btn-primary text-white" onClick={ onSiguiente }>Siguiente</button>
+            <button className="page-link btn-primary text-white" onClick={onSiguiente}>Siguiente</button>
           </li>
           <li className="page-item">
-            <button className="page-link btn-primary text-white" onClick={ onUltima }>Ultima</button>
+            <button className="page-link btn-primary text-white" onClick={onUltima}>Ultima</button>
           </li>
 
         </ul>
@@ -122,7 +122,7 @@ function App() {
       <Card className="mt-5">
         <Card.Body>
           <div className="row">
-            { showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> : componentePersonajes }
+            {showLoading ? <div className="col-sm-12 text-center"><Spinner animation="border" variant="primary" /></div> : componentePersonajes}
           </div>
         </Card.Body>
       </Card>
